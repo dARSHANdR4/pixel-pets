@@ -1,27 +1,21 @@
-<h1 align="center">🐾 PIXEL PETS</h1>
-<p align="center">
-  <strong>Your adorable pixel companion that lives on every webpage.</strong><br/>
-  A fully-featured Chrome Extension built with Vanilla JS, Canvas 2D, and a Neo-Brutalism design system.
-</p>
+<div align="center">
 
-<p align="center">
-  <img src="https://img.shields.io/badge/version-1.0.0-FF1B9C?style=for-the-badge&labelColor=2D1B69"/>
-  <img src="https://img.shields.io/badge/manifest-v3-00D9FF?style=for-the-badge&labelColor=1A1A1A"/>
-  <img src="https://img.shields.io/badge/chrome-90%2B-BFFF00?style=for-the-badge&labelColor=1A1A1A&color=BFFF00"/>
-  <img src="https://img.shields.io/badge/JavaScript-ES2020-FFD700?style=for-the-badge&labelColor=1A1A1A"/>
-  <img src="https://img.shields.io/badge/license-MIT-FF6B00?style=for-the-badge&labelColor=1A1A1A"/>
-</p>
+![PIXEL PETS Banner](docs/images/banner.png)
 
-<p align="center">
-  <a href="#-features">Features</a> •
-  <a href="#-architecture">Architecture</a> •
-  <a href="#-installation">Installation</a> •
-  <a href="#-prd--product-vision">PRD</a> •
-  <a href="#-trd--technical-spec">TRD</a> •
-  <a href="#-uiux-design-brief">UI/UX</a> •
-  <a href="#-app-flow">App Flow</a> •
-  <a href="#-achievements">Achievements</a>
-</p>
+<h1>🐾 PIXEL PETS</h1>
+
+**Your adorable pixel companion that lives on every webpage.**  
+A fully-featured Chrome Extension built with Vanilla JS, Canvas 2D, and a Neo-Brutalism design system.
+
+[![Version](https://img.shields.io/badge/version-1.0.0-FF1B9C?style=for-the-badge&labelColor=2D1B69)](https://github.com/dARSHANdR4/pixel-pets)
+[![Manifest](https://img.shields.io/badge/manifest-v3-00D9FF?style=for-the-badge&labelColor=1A1A1A)](https://developer.chrome.com/docs/extensions/mv3/)
+[![Chrome](https://img.shields.io/badge/chrome-90%2B-BFFF00?style=for-the-badge&labelColor=1A1A1A)](https://chrome.google.com/webstore)
+[![JavaScript](https://img.shields.io/badge/JavaScript-ES2020-FFD700?style=for-the-badge&labelColor=1A1A1A)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![License](https://img.shields.io/badge/license-MIT-FF6B00?style=for-the-badge&labelColor=1A1A1A)](LICENSE)
+
+[Features](#-features) • [Architecture](#-architecture) • [Installation](#-installation-developer-mode) • [PRD](#-prd--product-vision) • [TRD](#-trd--technical-spec) • [UI/UX](#-uiux-design-brief) • [App Flow](#-app-flow) • [Achievements](#-achievements)
+
+</div>
 
 ---
 
@@ -37,10 +31,22 @@ Your pet follows your cursor, reacts to your behavior, gets hungry, sleepy, and 
 
 ## 📸 Screenshots & Preview
 
-| Popup Dashboard | Pet on Page | Settings Page | Achievements |
-|:-:|:-:|:-:|:-:|
-| Live mood & energy bars | Pixel pet follows cursor | 5-tab settings panel | Tiered progress tracker |
-| Feed / Play / Pet buttons | Particle effects on interact | Neo-brutalism styled | Bronze / Silver / Gold |
+<div align="center">
+
+| Popup Dashboard | Achievements Page |
+|:-:|:-:|
+| ![Popup UI](docs/images/popup.png) | ![Achievements](docs/images/achievements.png) |
+| Live mood & energy bars, Feed/Play/Pet actions | Bronze / Silver / Gold tiered progress tracker |
+
+</div>
+
+### System Architecture
+
+<div align="center">
+
+![Architecture Diagram](docs/images/architecture.png)
+
+</div>
 
 ---
 
@@ -131,6 +137,8 @@ pixel-pets/
 │   ├── constants.js            # Shared config: colors, pets, achievements, interactions
 │   ├── pet-factory.js          # Pet sprite renderer (Canvas 2D pixel art)
 │   └── storage-manager.js      # Chrome Storage API abstraction layer
+├── docs/
+│   └── images/                 # Banner, architecture diagram, screenshots
 └── assets/
     ├── pets/                   # Pixel-art pet sprite definitions
     ├── icons/                  # Extension icons (16, 48, 128px)
@@ -379,15 +387,6 @@ transition: transform 100ms, box-shadow 100ms;
 - `tier-silver`: `--tier-color: #C0C0C0` — Border + progress bar glow
 - `tier-gold`: `--tier-color: #FFD700` — Border + progress bar glow
 
-**Individual Progress Bars:**
-```css
-.progress-fill {
-  background: linear-gradient(90deg, var(--lime), #00FF88);
-  box-shadow: 0 0 8px rgba(191, 255, 0, 0.6);   /* neon glow */
-  transition: width 300ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-```
-
 **Gamified Toast (Achievement Notification):**
 - Slides in from right side of screen with `cubic-bezier(0.175, 0.885, 0.32, 1.275)` spring
 - Bronze: Gold/orange background, lime accent
@@ -395,14 +394,6 @@ transition: transform 100ms, box-shadow 100ms;
 - Gold: Pure gold background, cyan offset shadow
 - Displays tier label, achievement icon, title
 - Auto-dismisses after 5 seconds with reverse slide animation
-
-### Layout Specs
-
-| Screen | Width | Structure |
-|--------|-------|-----------|
-| Popup | 320px | Fixed compact card layout |
-| Options | 600–800px | Tabbed sidebar, 5 sections |
-| Pet Overlay | 100vw × 100vh | Full-page fixed Canvas |
 
 ---
 
@@ -436,45 +427,6 @@ Pet follows cursor across page
 User opens Settings → Full 5-tab panel
 ```
 
-### Interaction Flow (Feed Example)
-```
-User clicks FEED button in Popup
-      │
-      ▼
-Food submenu expands: 🐟 Fish  🍖 Meat  🍪 Treat  🥛 Milk
-      │
-      ▼
-User selects 🐟 Fish
-      │
-      ▼
-popup.js: performAction('feed', { foodType: 'fish' })
-      │
-      ├─► chrome.tabs.sendMessage → PET_ACTION to content script
-      │         │
-      │         ▼
-      │   pet-engine.js: handleRemoteAction()
-      │         │
-      │         ▼
-      │   interactions.js: handleFeed(pet, 'fish')
-      │         │
-      │         ├─► pet.mood   += 30 (capped at 100)
-      │         ├─► pet.energy += 20 (capped at 100)
-      │         ├─► pet.stats.feedCount++
-      │         └─► overlay.js: spawnParticles(FOOD)
-      │
-      └─► Popup: optimistic UI update (feedCount++)
-                 Check achievement conditions
-                 If feedCount >= 10 → service worker evaluates
-                       │
-                       ▼
-                 Achievement UNLOCKED: "Caretaker" 🍖 BRONZE
-                       │
-                       ▼
-                 Toast slides in (bottom-right)
-                 storage.achievements updated
-                 Options page progress bars update (real-time)
-```
-
 ### Achievement Evaluation Flow
 ```
 Any interaction (feed / pet / play / sleep)
@@ -491,18 +443,15 @@ service-worker.js: evaluateAchievements(pet, totalPets, achievements)
       ▼
 Compare pet.stats against all 10 achievement conditions
       │
-      ├─► New unlock found?
+      ├── New unlock found?
       │         │
       │         ▼
       │   chrome.storage.local.set({ achievements })
       │         │
-      │         ▼
-      │   broadcastToTabs: ACHIEVEMENT_UNLOCKED message
-      │         │
-      │         ├─► content/overlay.js: showAchievementToast()  [on active page]
-      │         └─► options/options.js: showAchievementToast()  [on settings page]
+      │         ├── content/overlay.js: showAchievementToast()  [on active page]
+      │         └── options/options.js: showAchievementToast()  [on settings page]
       │
-      └─► No new unlock → silent (no notification)
+      └── No new unlock → silent
 ```
 
 ---
@@ -537,7 +486,7 @@ Compare pet.stats against all 10 achievement conditions
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/YOUR_USERNAME/pixel-pets.git
+   git clone https://github.com/dARSHANdR4/pixel-pets.git
    cd pixel-pets
    ```
 
@@ -553,7 +502,7 @@ Compare pet.stats against all 10 achievement conditions
 5. **Pin the extension:**
    Click the puzzle icon in your Chrome toolbar and pin Pixel Pets.
 
-6. **Open any webpage** and watch your pet appear! 🐾
+6. **Open any webpage** and watch your pet appear!
 
 ---
 
@@ -563,12 +512,12 @@ Detailed documentation files are included in the project root:
 
 | Document | File | Description |
 |----------|------|-------------|
-| 📋 Summary | [`00_SUMMARY_PixelPets.md`](./00_SUMMARY_PixelPets.md) | Complete project overview |
-| 📦 PRD | [`01_PRD_PixelPets.md`](./01_PRD_PixelPets.md) | Full product requirements |
-| 🔧 TRD | [`02_TRD_PixelPets.md`](./02_TRD_PixelPets.md) | Technical architecture spec |
-| 🗺️ App Flow | [`03_App_Flow_PixelPets.md`](./03_App_Flow_PixelPets.md) | All user journeys & state machines |
-| 🎨 UI/UX | [`04_UI_UX_Brief_PixelPets.md`](./04_UI_UX_Brief_PixelPets.md) | Neo-Brutalism design system |
-| 📅 Impl. Plan | [`05_Implementation_Plan_PixelPets.md`](./05_Implementation_Plan_PixelPets.md) | 16-week sprint roadmap |
+| 📋 Summary | [00_SUMMARY_PixelPets.md](./00_SUMMARY_PixelPets.md) | Complete project overview |
+| 📦 PRD | [01_PRD_PixelPets.md](./01_PRD_PixelPets.md) | Full product requirements |
+| 🔧 TRD | [02_TRD_PixelPets.md](./02_TRD_PixelPets.md) | Technical architecture spec |
+| 🗺️ App Flow | [03_App_Flow_PixelPets.md](./03_App_Flow_PixelPets.md) | All user journeys & state machines |
+| 🎨 UI/UX | [04_UI_UX_Brief_PixelPets.md](./04_UI_UX_Brief_PixelPets.md) | Neo-Brutalism design system |
+| 📅 Impl. Plan | [05_Implementation_Plan_PixelPets.md](./05_Implementation_Plan_PixelPets.md) | 16-week sprint roadmap |
 
 ---
 
@@ -584,19 +533,6 @@ Detailed documentation files are included in the project root:
 | Architecture | Content Script + SW | Clean separation, secure message passing |
 | Styling | Vanilla CSS vars | Full control, no Tailwind bloat |
 | Design | Neo-Brutalism | Matches pixel-art retro aesthetic perfectly |
-
----
-
-## 🔮 Future Roadmap (Phase 4+)
-
-- [ ] **Cloud sync** — Sync pets and achievements across devices via `chrome.storage.sync`
-- [ ] **Seasonal events** — Halloween, Christmas, and birthday animations
-- [ ] **Accessory system** — Hats, glasses, capes, scarves
-- [ ] **Custom pet upload** — Upload your own PNG sprite sheet
-- [ ] **Weather effects** — Snow, rain, falling leaves overlays
-- [ ] **AI personality** — Dynamic personality shifts based on browsing habits
-- [ ] **Community marketplace** — Share and discover community-created pets
-- [ ] **Multi-browser support** — Firefox WebExtension API port
 
 ---
 
@@ -626,6 +562,19 @@ Detailed documentation files are included in the project root:
 
 ---
 
+## 🔮 Future Roadmap (Phase 4+)
+
+- [ ] **Cloud sync** — Sync pets and achievements across devices via `chrome.storage.sync`
+- [ ] **Seasonal events** — Halloween, Christmas, and birthday animations
+- [ ] **Accessory system** — Hats, glasses, capes, scarves
+- [ ] **Custom pet upload** — Upload your own PNG sprite sheet
+- [ ] **Weather effects** — Snow, rain, falling leaves overlays
+- [ ] **AI personality** — Dynamic personality shifts based on browsing habits
+- [ ] **Community marketplace** — Share and discover community-created pets
+- [ ] **Multi-browser support** — Firefox WebExtension API port
+
+---
+
 ## 🤝 Contributing
 
 Contributions are welcome! Please follow these steps:
@@ -650,13 +599,13 @@ MIT License — see [LICENSE](./LICENSE) for details.
 
 ---
 
-<p align="center">
-  Built with ❤️ and a lot of pixel art.<br/>
-  <strong>PIXEL PETS</strong> — Because every browser deserves a companion.
-</p>
+<div align="center">
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Made%20with-Vanilla%20JS-FFD700?style=flat-square&labelColor=1A1A1A"/>
-  <img src="https://img.shields.io/badge/Design-Neo--Brutalism-FF1B9C?style=flat-square&labelColor=1A1A1A"/>
-  <img src="https://img.shields.io/badge/Privacy-Zero%20Tracking-BFFF00?style=flat-square&labelColor=1A1A1A"/>
-</p>
+Built with ❤️ and a lot of pixel art.<br/>
+**PIXEL PETS** — Because every browser deserves a companion.
+
+[![Made with Vanilla JS](https://img.shields.io/badge/Made%20with-Vanilla%20JS-FFD700?style=flat-square&labelColor=1A1A1A)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![Design Neo-Brutalism](https://img.shields.io/badge/Design-Neo--Brutalism-FF1B9C?style=flat-square&labelColor=1A1A1A)](#-uiux-design-brief)
+[![Privacy Zero Tracking](https://img.shields.io/badge/Privacy-Zero%20Tracking-BFFF00?style=flat-square&labelColor=1A1A1A)](#-trd--technical-spec)
+
+</div>
