@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pixel Pets Settings</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="settings-wrapper">
+    <!-- HEADER -->
+    <header class="settings-header">
+      <div class="header-content">
+        <span class="header-icon">🐾</span>
+        <h1 class="header-title">PIXEL PETS SETTINGS</h1>
+        <span class="header-version">v1.0.0</span>
+      </div>
+    </header>
+
+    <!-- TAB NAVIGATION -->
+    <div class="tab-nav-container">
+      <nav class="tab-nav" id="tab-nav">
+        <button class="tab-btn active" data-tab="general">GENERAL</button>
+        <button class="tab-btn" data-tab="pets">PETS</button>
+        <button class="tab-btn" data-tab="appearance">APPEARANCE</button>
+        <button class="tab-btn" data-tab="audio">AUDIO</button>
+        <button class="tab-btn" data-tab="advanced">ADVANCED</button>
+      </nav>
+    </div>
+
+    <!-- TAB CONTENT -->
+    <main class="tab-content">
+      <!-- ═══ GENERAL TAB ═══ -->
+      <section class="tab-panel active" id="tab-general">
+        <div class="settings-card">
+          <h2 class="card-title">EXTENSION SETTINGS</h2>
+          
+          <div class="setting-row">
+            <div class="setting-info">
+              <label class="setting-label" for="setting-enabled">ENABLE PIXEL PETS</label>
+              <p class="setting-desc">Show your pet companion on all websites</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="setting-enabled" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-info">
+              <label class="setting-label" for="setting-autostart">AUTO-START ON STARTUP</label>
+              <p class="setting-desc">Automatically show pet when browser opens</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="setting-autostart" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-info">
+              <label class="setting-label" for="setting-showname">SHOW PET NAME</label>
+              <p class="setting-desc">Display pet name above the sprite</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="setting-showname" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ PETS TAB ═══ -->
+      <section class="tab-panel" id="tab-pets">
+        <div class="settings-card">
+          <h2 class="card-title">YOUR PETS</h2>
+          <div class="pets-list" id="pets-list">
+            <!-- Dynamic pet list -->
+          </div>
+          <button class="btn-primary" id="btn-add-pet" style="margin-top: 16px;">
+            ➕ ADD NEW PET
+          </button>
+        </div>
+
+        <div class="settings-card">
+          <h2 class="card-title">PET SELECTION</h2>
+          <p class="card-desc">Choose from available pet types. Unlock more by completing achievements!</p>
+          <div class="pet-selection-grid" id="pet-selection-grid">
+            <!-- Dynamic pet type grid -->
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <h2 class="card-title">PERSONALITY</h2>
+          <p class="card-desc">Choose how your pet behaves</p>
+          <div class="personality-grid" id="personality-grid">
+            <!-- Dynamic personality options -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ APPEARANCE TAB ═══ -->
+      <section class="tab-panel" id="tab-appearance">
+        <div class="settings-card">
+          <h2 class="card-title">SIZE & SPEED</h2>
+          
+          <div class="slider-group">
+            <label class="slider-label">PET SIZE</label>
+            <div class="slider-container">
+              <input type="range" class="styled-slider" id="slider-size" min="32" max="128" value="64" step="8">
+              <span class="slider-value" id="value-size">64px</span>
+            </div>
+          </div>
+
+          <div class="slider-group">
+            <label class="slider-label">MOVEMENT SPEED</label>
+            <div class="slider-container">
+              <input type="range" class="styled-slider" id="slider-speed" min="25" max="200" value="100" step="5">
+              <span class="slider-value" id="value-speed">1.0x</span>
+            </div>
+          </div>
+
+          <div class="slider-group">
+            <label class="slider-label">ANIMATION SPEED</label>
+            <div class="slider-container">
+              <input type="range" class="styled-slider" id="slider-animspeed" min="25" max="300" value="100" step="5">
+              <span class="slider-value" id="value-animspeed">1.0x</span>
+            </div>
+          </div>
+
+          <div class="slider-group">
+            <label class="slider-label">OPACITY</label>
+            <div class="slider-container">
+              <input type="range" class="styled-slider" id="slider-opacity" min="20" max="100" value="100" step="5">
+              <span class="slider-value" id="value-opacity">100%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <h2 class="card-title">PET NAME</h2>
+          <div class="input-group">
+            <input type="text" class="styled-input" id="input-petname" placeholder="Enter pet name..." maxlength="20">
+            <button class="btn-secondary" id="btn-rename">RENAME</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ AUDIO TAB ═══ -->
+      <section class="tab-panel" id="tab-audio">
+        <div class="settings-card">
+          <h2 class="card-title">SOUND SETTINGS</h2>
+          
+          <div class="setting-row">
+            <div class="setting-info">
+              <label class="setting-label" for="setting-sound">ENABLE SOUNDS</label>
+              <p class="setting-desc">Play sounds when interacting with your pet</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="setting-sound">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <div class="slider-group">
+            <label class="slider-label">VOLUME</label>
+            <div class="slider-container">
+              <input type="range" class="styled-slider" id="slider-volume" min="0" max="100" value="50" step="5">
+              <span class="slider-value" id="value-volume">50%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-card muted-card">
+          <h2 class="card-title">🔇 SOUNDS ARE OFF BY DEFAULT</h2>
+          <p class="card-desc">We respect your browsing experience. Sounds are optional and must be explicitly enabled.</p>
+        </div>
+      </section>
+
+      <!-- ═══ ADVANCED TAB ═══ -->
+      <section class="tab-panel" id="tab-advanced">
+        <div class="settings-card">
+          <h2 class="card-title">PERFORMANCE</h2>
+          
+          <div class="setting-row">
+            <div class="setting-info">
+              <label class="setting-label" for="setting-performance">PERFORMANCE MODE</label>
+              <p class="setting-desc">Reduce effects for low-end devices (disables particles, lowers FPS)</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="setting-performance">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-info">
+              <label class="setting-label" for="setting-debug">DEBUG MODE</label>
+              <p class="setting-desc">Show FPS counter, collision boxes, and verbose logging</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="setting-debug">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <h2 class="card-title">DATA MANAGEMENT</h2>
+          
+          <div class="data-actions">
+            <button class="btn-secondary" id="btn-export">📦 EXPORT DATA</button>
+            <button class="btn-secondary" id="btn-import">📥 IMPORT DATA</button>
+            <button class="btn-danger" id="btn-reset">🗑️ RESET ALL DATA</button>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <h2 class="card-title">ACHIEVEMENTS</h2>
+          
+          <div class="mega-progress-container">
+            <div class="mega-progress-info">
+              <span class="mega-progress-label">TOTAL COMPLETION</span>
+              <span class="mega-progress-text" id="mega-progress-text">0 / 10 Unlocked</span>
+            </div>
+            <div class="mega-progress-bg">
+              <div class="mega-progress-fill" id="mega-progress-fill" style="width: 0%"></div>
+            </div>
+          </div>
+
+          <div class="achievements-grid" id="achievements-grid">
+            <!-- Dynamic achievements -->
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- SAVE BAR -->
+    <div class="save-bar">
+      <div class="save-bar-content">
+        <button class="btn-primary" id="btn-save">💾 SAVE SETTINGS</button>
+        <button class="btn-secondary" id="btn-defaults">RESET TO DEFAULTS</button>
+        <span class="save-status" id="save-status"></span>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="settings-footer">
+      <div class="footer-content">
+        <p>Pixel Pets v1.0.0 • Made with ❤️ • All data stored locally</p>
+        <p class="footer-links">
+          <a href="#" id="link-privacy">Privacy</a> • 
+          <a href="#" id="link-help">Help</a>
+        </p>
+      </div>
+    </footer>
+  </div>
+
+  <script src="../lib/constants.js"></script>
+  <script src="../lib/pet-factory.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>

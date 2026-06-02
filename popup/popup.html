@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=320">
+  <title>Pixel Pets</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container" id="popup">
+    <!-- HEADER -->
+    <header class="popup-header">
+      <div class="header-left">
+        <span class="header-icon">🐾</span>
+        <h1 class="header-title">PIXEL PETS</h1>
+      </div>
+      <div class="header-right">
+        <button class="icon-btn" id="btn-toggle" title="Toggle Extension" aria-label="Toggle Extension">
+          <span class="toggle-indicator active" id="toggle-indicator"></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- PET DISPLAY -->
+    <section class="pet-section">
+      <div class="pet-avatar-container">
+        <div class="pet-avatar" id="pet-avatar">
+          <canvas id="pet-preview-canvas" width="80" height="80"></canvas>
+        </div>
+        <div class="pet-info">
+          <h2 class="pet-name" id="pet-name">WHISKERS</h2>
+          <span class="pet-type" id="pet-type">🐱 Classic Cat</span>
+          <span class="pet-personality" id="pet-personality">❤️ Loyal</span>
+        </div>
+      </div>
+
+      <!-- STATS -->
+      <div class="stats-container">
+        <div class="stat-bar">
+          <label class="stat-label">MOOD</label>
+          <div class="stat-track">
+            <div class="stat-fill mood-fill" id="mood-bar" style="width: 75%"></div>
+          </div>
+          <span class="stat-value" id="mood-value">75%</span>
+        </div>
+        <div class="stat-bar">
+          <label class="stat-label">ENERGY</label>
+          <div class="stat-track">
+            <div class="stat-fill energy-fill" id="energy-bar" style="width: 80%"></div>
+          </div>
+          <span class="stat-value" id="energy-value">80%</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACTION BUTTONS -->
+    <section class="actions-section">
+      <div class="action-grid">
+        <button class="action-btn pet-btn" id="btn-pet" title="Pet your companion">
+          <span class="action-emoji">🐾</span>
+          <span class="action-label">PET</span>
+        </button>
+        <button class="action-btn feed-btn" id="btn-feed" title="Feed your pet">
+          <span class="action-emoji">🍖</span>
+          <span class="action-label">FEED</span>
+        </button>
+        <button class="action-btn play-btn" id="btn-play" title="Play with your pet">
+          <span class="action-emoji">🎮</span>
+          <span class="action-label">PLAY</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- FEED SUBMENU (hidden by default) -->
+    <section class="submenu" id="feed-submenu" style="display: none;">
+      <h3 class="submenu-title">CHOOSE FOOD</h3>
+      <div class="submenu-grid">
+        <button class="submenu-btn" data-food="fish">🐟 Fish</button>
+        <button class="submenu-btn" data-food="meat">🍖 Meat</button>
+        <button class="submenu-btn" data-food="treat">🍪 Treat</button>
+        <button class="submenu-btn" data-food="milk">🥛 Milk</button>
+      </div>
+    </section>
+
+    <!-- PLAY SUBMENU (hidden by default) -->
+    <section class="submenu" id="play-submenu" style="display: none;">
+      <h3 class="submenu-title">CHOOSE TOY</h3>
+      <div class="submenu-grid">
+        <button class="submenu-btn" data-toy="ball">⚽ Ball</button>
+        <button class="submenu-btn" data-toy="yarn">🧶 Yarn</button>
+        <button class="submenu-btn" data-toy="mouse">🐭 Mouse</button>
+        <button class="submenu-btn" data-toy="laser">🔴 Laser</button>
+      </div>
+    </section>
+
+    <!-- QUICK CONTROLS -->
+    <section class="controls-section">
+      <div class="controls-grid">
+        <button class="control-btn" id="btn-mute" title="Toggle Sound">
+          <span>🔇</span>
+          <span class="control-label">MUTE</span>
+        </button>
+        <button class="control-btn" id="btn-settings" title="Open Settings">
+          <span>⚙️</span>
+          <span class="control-label">SETTINGS</span>
+        </button>
+        <button class="control-btn accent" id="btn-new-pet" title="Add New Pet">
+          <span>➕</span>
+          <span class="control-label">NEW PET</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- PET SELECTOR (for multiple pets) -->
+    <section class="pet-selector-section" id="pet-selector-section" style="display: none;">
+      <h3 class="section-title">YOUR PETS</h3>
+      <div class="pet-list" id="pet-list">
+        <!-- Dynamic pet list -->
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="popup-footer">
+      <span class="footer-text">v1.0.0 • Made with ❤️</span>
+    </footer>
+  </div>
+
+  <script src="../lib/constants.js"></script>
+  <script src="../lib/pet-factory.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
