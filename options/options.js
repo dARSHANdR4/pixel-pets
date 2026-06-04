@@ -475,58 +475,97 @@ class OptionsController {
     const grid = document.getElementById('achievements-grid');
     grid.innerHTML = '';
 
-    const currentPet = this.pets[this.currentPetIndex] || DEFAULT_PET;
+    const currentPet = this.pets[this.currentPetIndex] || {};
     const stats = currentPet.stats || {};
-    
-    // Calculate total unlocked
-    const totalUnlocked = ACHIEVEMENTS.reduce((sum, ach) => {
-      return sum + (this.achievements.find(a => a.id === ach.id) ? 1 : 0);
+
+    // Count only CLAIMED (permanently unlocked) achievements for the progress bar
+    const claimedCount = ACHIEVEMENTS.reduce((sum, ach) => {
+      const record = this.achievements.find(a => a.id === ach.id);
+      return sum + (record && record.unlocked ? 1 : 0);
     }, 0);
 
-    // Update Mega Progress Bar
-    const megaPercent = (totalUnlocked / ACHIEVEMENTS.length) * 100;
-    document.getElementById('mega-progress-text').textContent = `${totalUnlocked} / ${ACHIEVEMENTS.length} Unlocked`;
+    // Update global mega progress bar — only climbs on actual CLAIM, never on claimable
+    const megaPercent = (claimedCount / ACHIEVEMENTS.length) * 100;
+    document.getElementById('mega-progress-text').textContent = `${claimedCount} / ${ACHIEVEMENTS.length} Claimed`;
     document.getElementById('mega-progress-fill').style.width = `${megaPercent}%`;
 
     ACHIEVEMENTS.forEach(ach => {
-      const unlocked = this.achievements.find(a => a.id === ach.id);
-      const card = document.createElement('div');
-      card.className = `achievement-card tier-${ach.tier || 'bronze'} ${unlocked ? 'unlocked' : 'locked'}`;
-      
-      // Calculate individual progress
-      let progress = 0;
+      const record     = this.achievements.find(a => a.id === ach.id);
+      const isClaimed   = !!(record && record.unlocked);
+      const isClaimable = !!(record && record.claimable && !isClaimed);
+      const isLocked    = !isClaimable && !isClaimed;
+
+      // ── Calculate progress value ──────────────────────────────────────────
       let currentValue = 0;
-      
-      if (!unlocked) {
-        if (ach.statKey === 'uniquePets') {
-          // Special case for collector
-          const uniqueIds = new Set(this.pets.map(p => p.type));
-          currentValue = uniqueIds.size;
-        } else if (ach.statKey === 'energy') {
-          currentValue = currentPet.energy || 0;
-        } else if (ach.statKey === 'mood') {
-          currentValue = currentPet.mood || 0;
-        } else {
-          currentValue = stats[ach.statKey] || 0;
-        }
-        
-        progress = Math.min(100, (currentValue / ach.max) * 100);
+      if (ach.statKey === 'uniquePets') {
+        const uniqueTypes = new Set(this.pets.map(p => p.type));
+        currentValue = uniqueTypes.size;
+      } else if (ach.statKey === 'energy') {
+        currentValue = currentPet.energy || 0;
+      } else if (ach.statKey === 'mood') {
+        currentValue = currentPet.mood || 0;
       } else {
-        progress = 100;
-        currentValue = ach.max;
+        currentValue = stats[ach.statKey] || 0;
       }
 
-      // Format value based on type (time vs raw number)
-      let displayValue = currentValue;
-      let displayMax = ach.max;
+      const progress = Math.min(100, (currentValue / ach.max) * 100);
+
+      // ── Format display value ───────────────────────────────────────────────
+      let displayValue = Math.round(currentValue);
+      let displayMax   = ach.max;
       if (ach.statKey === 'totalPlayTime') {
-        displayValue = Math.floor(currentValue / 3600000) + 'h';
-        displayMax = Math.floor(ach.max / 3600000) + 'h';
+        displayValue = (currentValue / 3600000).toFixed(1) + 'h';
+        displayMax   = (ach.max / 3600000).toFixed(0) + 'h';
+      }
+
+      // ── Build card ────────────────────────────────────────────────────────
+      const card = document.createElement('div');
+      card.dataset.achievementId = ach.id;
+
+      let stateClass = 'locked';
+      if (isClaimed)   stateClass = 'claimed';
+      if (isClaimable) stateClass = 'claimable';
+
+      card.className = `achievement-card tier-${ach.tier} ${stateClass}`;
+
+      // Icon: show real icon if visible, lock if truly hidden
+      const iconDisplay = isLocked ? '🔒' : ach.icon;
+
+      // Reward badge — show on claimable cards only
+      let rewardBadgeHTML = '';
+      if (ach.rewardPetUnlock && !isClaimed) {
+        const rewardPet = PET_TYPES[ach.rewardPetUnlock];
+        if (rewardPet) {
+          rewardBadgeHTML = `
+            <span class="achievement-reward-badge">
+              🎁 Unlocks ${rewardPet.emoji} ${rewardPet.name}
+            </span>`;
+        }
+      }
+
+      // Action section: claim btn / claimed label / progress bar
+      let actionHTML = '';
+      if (isClaimable) {
+        actionHTML = `
+          <button class="claim-btn" data-id="${ach.id}" id="claim-btn-${ach.id}">
+            🏆 CLAIM REWARD →
+          </button>`;
+      } else if (isClaimed) {
+        actionHTML = `
+          <div class="achievement-claimed-label">
+            ✓ CLAIMED &nbsp;•&nbsp; ${ach.tier.toUpperCase()}
+          </div>`;
+      } else {
+        actionHTML = `
+          <div class="achievement-progress-bg">
+            <div class="achievement-progress-fill" style="width: ${progress}%"></div>
+          </div>
+          <div class="achievement-progress-text">${displayValue} / ${displayMax} (${Math.round(progress)}%)</div>`;
       }
 
       card.innerHTML = `
         <div class="achievement-header">
-          <span class="achievement-icon">${unlocked ? ach.icon : '🔒'}</span>
+          <span class="achievement-icon">${iconDisplay}</span>
           <div class="achievement-info">
             <div class="achievement-title">
               ${ach.title}
@@ -535,18 +574,102 @@ class OptionsController {
             <span class="achievement-desc">${ach.description}</span>
           </div>
         </div>
-        ${!unlocked ? `
-        <div class="achievement-progress-bg">
-          <div class="achievement-progress-fill" style="width: ${progress}%"></div>
-        </div>
-        <div class="achievement-progress-text">${displayValue} / ${displayMax} (${Math.round(progress)}%)</div>
-        ` : `
-        <div class="achievement-progress-text" style="color: var(--lime); font-size: 11px; font-weight: bold;">✓ COMPLETED</div>
-        `}
+        ${rewardBadgeHTML}
+        ${actionHTML}
       `;
+
       grid.appendChild(card);
     });
+
+    // Bind all CLAIM buttons in this render pass
+    grid.querySelectorAll('.claim-btn').forEach(btn => {
+      btn.addEventListener('click', () => this.claimAchievement(btn.dataset.id));
+    });
   }
+
+  /**
+   * Handles the full CLAIM flow when the user clicks the CLAIM button on an
+   * achievement card. Sends CLAIM_ACHIEVEMENT to the service worker, which:
+   *  1. Verifies the stat threshold is still met
+   *  2. Permanently marks the achievement as unlocked
+   *  3. Unlocks the reward pet in accessories.unlocked (if applicable)
+   *  4. Broadcasts ACHIEVEMENT_UNLOCKED to all content scripts
+   * Then transitions the card to 'claimed' state with a flash animation.
+   */
+  async claimAchievement(achievementId) {
+    const btn = document.querySelector(`#claim-btn-${achievementId}`);
+    if (btn) {
+      btn.classList.add('claiming');
+      btn.textContent = '⏳ Claiming...';
+      btn.disabled = true;
+    }
+
+    try {
+      const result = await this.sendMessage({
+        type: 'CLAIM_ACHIEVEMENT',
+        achievementId
+      });
+
+      if (!result || !result.success) {
+        const reason = result?.reason || 'Unknown error';
+        this.showSaveStatus(`❌ Claim failed: ${reason}`, 'error');
+        if (btn) {
+          btn.classList.remove('claiming');
+          btn.textContent = '🏆 CLAIM REWARD →';
+          btn.disabled = false;
+        }
+        return;
+      }
+
+      // Update local achievements cache so re-renders are consistent
+      const existing = this.achievements.find(a => a.id === achievementId);
+      if (existing) {
+        existing.unlocked = result.achievement.unlocked;
+        existing.claimable = false;
+      } else {
+        this.achievements.push({
+          id: achievementId,
+          tier: result.achievement.tier,
+          claimable: false,
+          unlocked: result.achievement.unlocked
+        });
+      }
+
+      // Flash the card, then re-render with 'claimed' state
+      const card = document.querySelector(`[data-achievement-id="${achievementId}"]`);
+      if (card) {
+        card.classList.add('claim-flash');
+        setTimeout(() => this.renderAchievements(), 550);
+      } else {
+        this.renderAchievements();
+      }
+
+      // Show the Neo-Brutalism achievement toast
+      this.showAchievementToast(result.achievement);
+
+      // If a pet was unlocked as a reward, refresh the pet grid
+      if (result.achievement.petUnlocked) {
+        const petDef = PET_TYPES[result.achievement.petUnlocked];
+        if (petDef) {
+          // Mark the pet as unlocked for this session
+          PET_TYPES[result.achievement.petUnlocked].unlocked = true;
+          this.renderPetSelectionGrid();
+          this.showSaveStatus(`🎉 ${petDef.emoji} ${petDef.name} is now unlocked!`, 'success');
+        }
+      }
+
+    } catch (error) {
+      console.error('[PixelPets Options] Claim error:', error);
+      this.showSaveStatus('❌ Claim failed — try again', 'error');
+      if (btn) {
+        btn.classList.remove('claiming');
+        btn.textContent = '🏆 CLAIM REWARD →';
+        btn.disabled = false;
+      }
+    }
+  }
+
+
 
   bindAdvancedEvents() {
     // Export data

@@ -280,10 +280,10 @@ class PetEngine {
         };
       }
 
-      // Update pet play time
-      if (pet.stats) {
-        pet.stats.totalPlayTime += deltaTime * 1000;
-      }
+      // NOTE (Risk B Fix): totalPlayTime is no longer accumulated here.
+      // It is now tracked exclusively by the service worker's mood-decay alarm,
+      // which fires every 1 minute and credits playtime only to the single active tab
+      // that responds to a PING. This prevents 10x inflation when multiple tabs are open.
     });
   }
 
@@ -407,8 +407,27 @@ class PetEngine {
           return true;
 
         case 'ACHIEVEMENT_UNLOCKED':
-          // Show achievement toast in the overlay!
+          // User claimed an achievement — show the big unlock toast
           this.overlay.showAchievementToast(message.achievement);
+          // If a pet was unlocked as a reward, show an extra info toast
+          if (message.achievement.petUnlocked) {
+            const unlockedPetDef = PET_TYPES[message.achievement.petUnlocked];
+            if (unlockedPetDef) {
+              setTimeout(() => {
+                this.overlay.showToast(
+                  `${unlockedPetDef.emoji} New pet unlocked: ${unlockedPetDef.name}!`,
+                  'success',
+                  5000
+                );
+              }, 1200);
+            }
+          }
+          return true;
+
+        case 'ACHIEVEMENT_CLAIMABLE':
+          // An achievement threshold was just met — trigger in-page notification.
+          // Pet does an excited jump animation + a "Ready to Claim" toast slides in.
+          this.handleClaimableNotification(message.achievement);
           return true;
 
         case 'PING':
@@ -425,7 +444,7 @@ class PetEngine {
     const pet = this.pets.find(p => p.id === message.petId) || this.pets[0];
     if (!pet) return;
 
-    // Bypass cooldown for remote popup clicks to allow rapid achievement progression
+    // Bypass cooldown for remote popup clicks
     pet.interaction.interactionCooldown = 0;
 
     switch (message.action) {
@@ -442,9 +461,41 @@ class PetEngine {
         pet.interaction.handleSleep(pet);
         break;
     }
-    
-    // Force immediate save to evaluate achievements instantly
-    this.savePetStates();
+
+    // Save pet state, then ask the service worker to evaluate achievement eligibility.
+    // This triggers the CLAIMABLE flow via EVALUATE_ACHIEVEMENTS → storage.onChanged.
+    this.savePetStates().then(() => {
+      chrome.runtime.sendMessage({
+        type: 'EVALUATE_ACHIEVEMENTS',
+        petId: pet.id
+      }).catch(() => {});
+    });
+  }
+
+  /**
+   * Show an in-page claimable notification.
+   * The pet plays a special excited jump animation and a pulsing toast
+   * slides in telling the user to visit Settings to claim their reward.
+   */
+  handleClaimableNotification(achievement) {
+    // Pick any active pet to react — prefer the first one
+    const pet = this.pets[0];
+    if (pet) {
+      // Play an excited jump animation on the live pet
+      pet.animation.play(ANIMATION_STATES.JUMPING);
+      pet.currentAnimation = ANIMATION_STATES.JUMPING;
+
+      // Shoot sparkle particles from the pet
+      this.overlay.createParticles('sparkles', pet.x + (pet.size || 64) / 2, pet.y, 8);
+      this.overlay.createParticles('stars', pet.x + (pet.size || 64) / 2, pet.y - 20, 5);
+    }
+
+    // Show a "Ready to Claim" toast for 6 seconds
+    this.overlay.showToast(
+      `🏆 ${achievement.icon} "${achievement.title}" — Ready to Claim! Open Settings →`,
+      'success',
+      6000
+    );
   }
 
   /**
