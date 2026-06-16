@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Pixel Pets",
   "version": "1.0.0",
-  "description": "A customizable virtual pet companion that lives on your browser! Watch your pixel pet follow your cursor, play with it, feed it, and customize it with unique personalities and accessories.",
+  "description": "A virtual pixel-art pet that lives on your browser! Feed it, play with it, and unlock achievements.",
   "icons": {
     "16": "assets/icons/icon-16.png",
     "48": "assets/icons/icon-48.png",
