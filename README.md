@@ -13,9 +13,68 @@ A fully-featured Chrome Extension built with Vanilla JS, Canvas 2D, and a Neo-Br
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES2020-FFD700?style=for-the-badge&labelColor=1A1A1A)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 [![License](https://img.shields.io/badge/license-MIT-FF6B00?style=for-the-badge&labelColor=1A1A1A)](LICENSE)
 
-[Features](#-features) • [Architecture](#-architecture) • [Installation](#-installation-developer-mode) • [PRD](#-prd--product-vision) • [TRD](#-trd--technical-spec) • [UI/UX](#-uiux-design-brief) • [App Flow](#-app-flow) • [Achievements](#-achievements)
+<br/>
+
+<a href="https://chromewebstore.google.com/detail/pixel-pets/fpkgdncikincjddlpibdhaaefjfoelga">
+  <img src="https://img.shields.io/badge/Install-Chrome%20Web%20Store-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Install from Chrome Web Store">
+</a>
+&nbsp;
+<a href="https://github.com/dARSHANdR4/pixel-pets">
+  <img src="https://img.shields.io/badge/View-GitHub-black?style=for-the-badge&logo=github" alt="View on GitHub">
+</a>
+
+<br/><br/>
+
+[![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-Available-4285F4?style=flat-square&logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/pixel-pets/fpkgdncikincjddlpibdhaaefjfoelga)
+[![Manifest V3](https://img.shields.io/badge/Manifest-V3-00D9FF?style=flat-square&labelColor=1A1A1A)](https://developer.chrome.com/docs/extensions/mv3/)
+[![Zero Tracking](https://img.shields.io/badge/Privacy-Zero%20Tracking-BFFF00?style=flat-square&labelColor=1A1A1A)](#-trd--technical-spec)
+[![100% Local](https://img.shields.io/badge/Data-100%25%20Local-FF1B9C?style=flat-square&labelColor=1A1A1A)](#-trd--technical-spec)
+[![10 Pixel Pets](https://img.shields.io/badge/Pets-10%20Pixel%20Pets-FFD700?style=flat-square&labelColor=1A1A1A)](#-features)
+[![Achievement System](https://img.shields.io/badge/Achievements-10%20Unlockables-FF6B00?style=flat-square&labelColor=1A1A1A)](#-achievements)
+
+[🚀 Install](#-installation) • [Features](#-features) • [Architecture](#-architecture) • [Installation](#-installation-developer-mode) • [PRD](#-prd--product-vision) • [TRD](#-trd--technical-spec) • [UI/UX](#-uiux-design-brief) • [App Flow](#-app-flow) • [Achievements](#-achievements)
 
 </div>
+
+---
+
+## 🚀 Live Deployment
+
+Pixel Pets is now **officially available** on the Chrome Web Store — no developer mode, no ZIP files, just one click.
+
+<p align="center">
+
+<a href="https://chromewebstore.google.com/detail/pixel-pets/fpkgdncikincjddlpibdhaaefjfoelga">
+  <img src="docs/images/banner.png" width="700" alt="Install Pixel Pets from the Chrome Web Store">
+</a>
+
+</p>
+
+👉 **[Install Pixel Pets — Chrome Web Store](https://chromewebstore.google.com/detail/pixel-pets/fpkgdncikincjddlpibdhaaefjfoelga)**
+
+> ⭐ If you enjoy it, consider **[starring this repository](https://github.com/dARSHANdR4/pixel-pets)** — it really helps!
+
+### 🌟 Why Install from the Store?
+
+| | Chrome Web Store | Developer Mode |
+|---|---|---|
+| **Setup** | 1 click | Clone + load unpacked |
+| **Updates** | Auto-updated | Manual pull required |
+| **Stability** | Store-reviewed build | Local dev build |
+| **Recommended for** | Everyone | Contributors / Developers |
+
+---
+
+### 💬 Social Proof
+
+⭐ **Chrome Web Store** — Publicly Listed  
+✅ **Manifest V3** — Latest Chrome Standard  
+🔒 **Zero Tracking** — 100% Private  
+💯 **100% Local** — All data on your device  
+🎮 **10 Pixel Pets** — Classic Cat, Black Cat, Puppy, Bunny, Fox, Ghost & more  
+🏆 **10 Achievements** — Bronze, Silver & Gold tiers  
+⚡ **< 5% CPU** — Lightweight & battery-friendly  
+🚀 **Manifest V3** — Future-proof Chrome extension standard  
 
 ---
 
@@ -482,7 +541,27 @@ Compare pet.stats against all 10 achievement conditions
 
 ---
 
-## 🚀 Installation (Developer Mode)
+## 🚀 Installation
+
+### ⚡ Option 1 — Install from Chrome Web Store (Recommended)
+
+The easiest way to get Pixel Pets — no setup required:
+
+<p align="center">
+
+<a href="https://chromewebstore.google.com/detail/pixel-pets/fpkgdncikincjddlpibdhaaefjfoelga">
+  <img src="https://img.shields.io/badge/Install%20Now-Chrome%20Web%20Store-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Install from Chrome Web Store">
+</a>
+
+</p>
+
+👉 https://chromewebstore.google.com/detail/pixel-pets/fpkgdncikincjddlpibdhaaefjfoelga
+
+One click → auto-updated → works immediately on every webpage.
+
+---
+
+### 🛠️ Option 2 — Developer Mode (Developer Mode)
 
 1. **Clone the repository:**
    ```bash
@@ -596,6 +675,20 @@ Contributions are welcome! Please follow these steps:
 ## 📜 License
 
 MIT License — see [LICENSE](./LICENSE) for details.
+
+---
+
+## ❤️ Like Pixel Pets?
+
+If Pixel Pets made your browsing a little more fun, here's how you can show your support:
+
+🐾 **[Install the Extension](https://chromewebstore.google.com/detail/pixel-pets/fpkgdncikincjddlpibdhaaefjfoelga)** — Get your companion on Chrome  
+⭐ **[Star this Repository](https://github.com/dARSHANdR4/pixel-pets)** — It helps more people discover the project  
+💬 **Leave a Review** — On the [Chrome Web Store](https://chromewebstore.google.com/detail/pixel-pets/fpkgdncikincjddlpibdhaaefjfoelga) — even a few words make a difference  
+🚀 **Share with Friends** — Send this link to anyone who might enjoy a browser companion  
+🤝 **[Contribute](#-contributing)** — PRs, ideas, and bug reports are always welcome  
+
+> Every star, install, and share motivates me to keep improving Pixel Pets. Thank you! 🙏
 
 ---
 
