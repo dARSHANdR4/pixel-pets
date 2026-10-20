@@ -702,3 +702,10 @@ Built with ❤️ and a lot of pixel art.<br/>
 [![Privacy Zero Tracking](https://img.shields.io/badge/Privacy-Zero%20Tracking-BFFF00?style=flat-square&labelColor=1A1A1A)](#-trd--technical-spec)
 
 </div>
+
+
+## Copyright and permissions
+
+Copyright © 2026 dARSHANdR4. All rights reserved.
+
+Unless otherwise stated, original project code and assets are reserved and no open-source licence is granted. Third-party materials remain subject to their respective licences. See [COPYRIGHT](./COPYRIGHT) for the full notice.
