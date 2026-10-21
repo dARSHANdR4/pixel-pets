@@ -11,7 +11,6 @@ A fully-featured Chrome Extension built with Vanilla JS, Canvas 2D, and a Neo-Br
 [![Manifest](https://img.shields.io/badge/manifest-v3-00D9FF?style=for-the-badge&labelColor=1A1A1A)](https://developer.chrome.com/docs/extensions/mv3/)
 [![Chrome](https://img.shields.io/badge/chrome-90%2B-BFFF00?style=for-the-badge&labelColor=1A1A1A)](https://chrome.google.com/webstore)
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES2020-FFD700?style=for-the-badge&labelColor=1A1A1A)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-[![License](https://img.shields.io/badge/license-MIT-FF6B00?style=for-the-badge&labelColor=1A1A1A)](LICENSE)
 
 <br/>
 
