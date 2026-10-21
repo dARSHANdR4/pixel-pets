@@ -672,12 +672,6 @@ Contributions are welcome! Please follow these steps:
 
 ---
 
-## 📜 License
-
-MIT License — see [LICENSE](./LICENSE) for details.
-
----
-
 ## ❤️ Like Pixel Pets?
 
 If Pixel Pets made your browsing a little more fun, here's how you can show your support:
